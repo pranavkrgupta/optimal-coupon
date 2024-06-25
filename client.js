@@ -5,7 +5,7 @@ async function getCouponValue(couponId) {
   console.time(`Request time for ${couponId}`);
   const res = await axios.get(apiEndPoint);
   console.timeEnd(`Request time for ${couponId}`);
-  return res.data.value;
+  return { couponId, value: res.data.value };
 }
 
 async function calculateCouponsValue() {
@@ -21,8 +21,31 @@ async function calculateCouponsValue() {
     const couponValues = await Promise.all(couponValuePromises);
     console.timeEnd(`Total request time`);
     // find maxSavings
-    const maxSavings = Math.max(...couponValues);
-    console.log(`Maximum Savings: ${maxSavings}`);
+
+    let maxSavings = 0;
+    let maxSavingCouponIds = [];
+    couponValues.forEach(({ couponId, value }) => {
+      if (value > maxSavings) {
+        maxSavings = value;
+        maxSavingCouponIds = [couponId];
+      } else if (value === maxSavings) maxSavingCouponIds.push(couponId);
+    });
+    // const maxSavings = Math.max(...couponValues);
+    //     console.log(`Maximum Savings: ${maxSavings}`);
+    //   } catch (err) {
+    //     console.error(`Error Calculating coupon Values: ${err}`);
+    //   }
+    if (maxSavingCouponIds.length === 1) {
+      console.log(
+        `Maximum Savings: ${maxSavings} for Coupon ID: ${maxSavingCouponIds[0]}`
+      );
+    } else if (maxSavingCouponIds.length > 1) {
+      console.log(
+        `Maximum Savings: ${maxSavings} for Coupon IDs: ${maxSavingCouponIds.join(
+          ", "
+        )}`
+      );
+    }
   } catch (err) {
     console.error(`Error Calculating coupon Values: ${err}`);
   }
