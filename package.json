@@ -1,0 +1,16 @@
+{
+  "name": "optimal-coupon",
+  "version": "1.0.0",
+  "description": "Given the following RPCs/APIs\r ---\r - Cart RPC\r   - Gives all the items in your cart.\r - GetApplicableOffer\r   - Gives all the applicable offers in your cart.\r - ApplyApplicableOffer\r   - Gives the savings for the particular offer.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.2",
+    "express": "^4.19.2"
+  }
+}
